@@ -11,7 +11,7 @@ var APP = {
 
 		var events = {};
 
-		var dom = document.createElement( 'div' );
+		var dom = document.getElementById( 'player' );
 
 		this.dom = dom;
 

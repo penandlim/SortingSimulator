@@ -14,46 +14,129 @@
 				overflow: hidden;
 			}
 		</style>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+		<link rel="stylesheet" href="css/main.css">
 	</head>
 	<body ontouchstart="">
+		<div id="player"></div>
+		<div id="editor-holder">
+			<div class="container-fluid">
+
+				<div class="row py-2 px-2">
+					<div class="col-8 text-center">
+						<label for="field1" class="fieldHeading pt-1" style=" color: whitesmoke;">Number of Elements: </label>
+						<span class="fieldSpan numOfElements"><input class="numOfElements" type="text" id="field1" value="15" /></span>
+					</div>
+					<div class="col-2 text-center">
+						<button type="button" class="btn btn-primary d-inline" onclick="window.generateBars($('#field1').val());">Shuffle</button>
+					</div>
+
+					<div class="col-2 text-center">
+						<button type="button" class="btn btn-primary d-inline font-weight-bold" onclick="sort();">Sort!</button>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm text-center">
+						<div class="dropdown">
+							<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								Sorting Algorithms
+							</button>
+							<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+								<a class="dropdown-item" href="#">Action</a>
+								<a class="dropdown-item" href="#">Another action</a>
+								<a class="dropdown-item" href="#">Something else here</a>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+
+			</div>
+
+		<div id="editor">function foo(items) {
+			var x = "All this is syntax highlighted";
+			return x;
+			}</div>
+		</div>
+
 		<script src="js/jquery.min.js"></script>
+		<script src="js/ace-builds/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			var editor = ace.edit("editor");
+			editor.setTheme("ace/theme/monokai");
+			editor.session.setMode("ace/mode/javascript");
+			editor.setValue("\n" +
+					"window.sortingAlgoFn = async function sortingAlgo(arr) {\n" +
+					"\t\n" +
+					"\t// Do not edit Above this line\n" +
+					"\t// ===========================\n" +
+					"\t\n" +
+					"\t// swap animation duration in ms.\n" +
+					"\twindow.swapDelay = 50;\n" +
+					"\n" +
+					"\t// Insertion Sort Implementation\n" +
+					"\tfor(let i = 1; i < arr.length; i++) {\n" +
+					"\t\twhile(i - 1 >= 0 && arr[i-1] > arr[i]) {\n" +
+					"\t\t    // Must use 'await swap(i, j);' to swap elements.\n" +
+					"\t\t\tawait swap(i, i - 1);\n" +
+					"\t\t\ti--;\n" +
+					"\t\t}\n" +
+					"\t}\n" +
+					"\t\n" +
+					"\t// Do not edit below here.\n" +
+					"\t// ============================\n" +
+					"\t\n" +
+					"\treturn true;\n" +
+					"}");
+		</script>
+
 		<script src="js/Tone.min.js"></script>
 		<script src="js/three.min.js"></script>
 		<script src="js/tween.umd.js"></script>
 		<script src="js/app.js"></script>
-		
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
 		<script>
 
-			var loader = new THREE.FileLoader();
-			loader.load( 'app.json', function ( text ) {
+			$(function() {
+				// Code here
 
-				var player = new APP.Player();
-				player.load( JSON.parse( text ) );
-				player.setSize( window.innerWidth, window.innerHeight );
-				player.play();
 
-				document.body.appendChild( player.dom );
+				var loader = new THREE.FileLoader();
+				loader.load( 'app.json', function ( text ) {
 
-				window.addEventListener( 'resize', function () {
-					player.setSize( window.innerWidth, window.innerHeight );
+					var player = new APP.Player();
+					player.load( JSON.parse( text ) );
+
+					var playerDOM = $(player.dom);
+
+					player.setSize( playerDOM.outerWidth(), playerDOM.outerHeight() );
+					player.play();
+
+					document.body.appendChild( player.dom );
+
+					window.addEventListener( 'resize', function () {
+						player.setSize( playerDOM.outerWidth(), playerDOM.outerHeight() );
+					} );
+
+					const AsyncFunction = Object.getPrototypeOf(async function(){}).constructor;
+
+					window.sort = function() {
+						eval(editor.getValue());
+
+						window.sortingAlgoFn(window.barArrayInt).then(result => {
+							setTimeout(function(){
+								window.sortCompleted();
+							}, 500);
+						});
+
+					};
 				} );
-
-				async function insertionSort(arr) {
-					for(i = 1; i < arr.length; i++) {
-						while(i - 1 >= 0 && arr[i-1] > arr[i]) {
-							await window.swap(i, i - 1);
-							i--;
-						}
-					}
-
-					setTimeout(function(){
-						window.sortCompleted();
-					}, 500);
-				}
-
-				window.insertionSort = insertionSort;
-
-			} );
+			});
 		</script>
+
 	</body>
 </html>
