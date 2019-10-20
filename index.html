@@ -32,6 +32,8 @@
 							<a class="dropdown-item" href="#" onclick="editor.setValue(_sortingAlgorithms.selection, 1)">Selection Sort</a>
 							<a class="dropdown-item" href="#" onclick="editor.setValue(_sortingAlgorithms.bubble, 1)">Bubble Sort</a>
 							<a class="dropdown-item" href="#" onclick="editor.setValue(_sortingAlgorithms.quick, 1)">Quick Sort</a>
+							<a class="dropdown-item" href="#" onclick="editor.setValue(_sortingAlgorithms.genome, 1)">Genome Sort</a>
+							<a class="dropdown-item" href="#" onclick="editor.setValue(_sortingAlgorithms.bogo, 1)">Bogo Sort</a>
 						</div>
 					</div>
 				</div>
@@ -225,6 +227,72 @@
 						"\t\n" +
 						"\treturn true;\n" +
 						"}",
+				genome : "window.sortingAlgoFn = async function sortingAlgo(arr) {\n" +
+						"    \n" +
+						"    // swap animation duration in ms.\n" +
+						"    \n" +
+						"\twindow.swapDelay = 50;\n" +
+						"\t\n" +
+						"\t// DO NOT EDIT ABOVE\n" +
+						"\t// ===================================================\n" +
+						"\t\n" +
+						"                \t///////////////////\n" +
+						"                \t//  Genome Sort  //\n" +
+						"                \t///////////////////\n" +
+						"    let index = 0;\n" +
+						"                \t\n" +
+						"    while (index < arr.length) { \n" +
+						"        if (index === 0) \n" +
+						"            index++; \n" +
+						"        if (arr[index] >= arr[index - 1]) \n" +
+						"            index++; \n" +
+						"        else { \n" +
+						"            await swap(index, index - 1); \n" +
+						"            index--; \n" +
+						"        } \n" +
+						"    } \n" +
+						"\t\n" +
+						"\t// DO NOT EDIT BELOW\n" +
+						"\t// ====================================================\n" +
+						"\t\n" +
+						"\treturn true;\n" +
+						"}",
+				bogo : "window.sortingAlgoFn = async function sortingAlgo(arr) {\n" +
+						"    \n" +
+						"    // swap animation duration in ms.\n" +
+						"    \n" +
+						"\twindow.swapDelay = 50;\n" +
+						"\t\n" +
+						"\t// DO NOT EDIT ABOVE\n" +
+						"\t// ===================================================\n" +
+						"\t\n" +
+						"                \t/////////////////\n" +
+						"                \t//  Bogo Sort  //\n" +
+						"                \t/////////////////\n" +
+						"    \n" +
+						"    function isSorted(arr, n) {\n" +
+						"        while ( --n > 1 ) {\n" +
+						"            if (arr[n] < arr[n-1]) \n" +
+						"                return false;\n" +
+						"        }\n" +
+						"        return true; \n" +
+						"    }\n" +
+						"    \n" +
+						"    function getRandomInt(max) {\n" +
+						"        return Math.floor(Math.random() * Math.floor(max));\n" +
+						"    }\n" +
+						"    \n" +
+						"    while(!isSorted(arr, arr.length)) {\n" +
+						"        for (let i = 0; i < arr.length; i++) {\n" +
+						"            await swap(i, getRandomInt(arr.length)); \n" +
+						"        }\n" +
+						"    }\n" +
+						"\n" +
+						"\t// DO NOT EDIT BELOW\n" +
+						"\t// ====================================================\n" +
+						"\t\n" +
+						"\treturn true;\n" +
+						"}"
 
 			};
 
